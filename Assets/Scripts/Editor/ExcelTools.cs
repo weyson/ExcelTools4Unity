@@ -9,8 +9,8 @@ using ExcelDataReader;
 
 public class ExcelTools
 {
-    private static string INPUT_DIR = Application.dataPath + @"..\..\Excel";
-    private static string OUTPUT_DIR = Application.dataPath + @"\Scripts\Excel";
+    private const string INPUT_DIR = @"D:\Workspace\a0\document\excel";
+    private const string OUTPUT_DIR = @"D:\Workspace\a0\project\Assets\Scripts\Excel";
     private static List<string> m_codeFileNames;
 
     [MenuItem("Tools/Excel To Code")]
@@ -59,6 +59,7 @@ public class ExcelTools
         _codeBuilder.AppendLine("\t{");
         foreach(string _className in m_codeFileNames)
         {
+            _codeBuilder.AppendLine(string.Format("\t\t_{0} = new {1}();", _className.ToLower(), _className));
             _codeBuilder.AppendLine(string.Format("\t\t_{0}.Init();", _className.ToLower()));
         }
         _codeBuilder.AppendLine("\t}");
