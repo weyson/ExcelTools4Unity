@@ -253,23 +253,31 @@ public class ExcelTools
         }
         else if (fieldType.IndexOf("<Vector3>") >= 0) // Vector3
         {
-            string[] _values = fieldValue.ToString().Split(new char[] { '|' });
-            int _count = _values.Length;
-            StringBuilder _sb = new StringBuilder();
-            _sb.AppendFormat("{0} = new {1}() {{ ", fieldName, fieldType);
-            for (int i = 0; i < _count; i++)
+            if (fieldValue.Equals(string.Empty))
             {
-                if (i != _count - 1)
-                {
-                    _sb.AppendFormat("new Vector3({0}), ", _values[i]);
-                }
-                else
-                {
-                    _sb.AppendFormat("new Vector3({0})", _values[i]);
-                }
+                _ret = string.Format("{0} = null", fieldName);
             }
-            _sb.Append("}");
-            _ret = _sb.ToString();
+            else
+            {
+                string[] _values = fieldValue.ToString().Split(new char[] { '|' });
+                int _count = _values.Length;
+                StringBuilder _sb = new StringBuilder();
+                _sb.AppendFormat("{0} = new {1}() {{ ", fieldName, fieldType);
+                for (int i = 0; i < _count; i++)
+                {
+                    string[] _v3 = _values[i].Split(new char[] { ',' });
+                    if (i != _count - 1)
+                    {
+                        _sb.AppendFormat("new Vector3({0}f, {1}f, {2}f), ", _v3[0], _v3[1], _v3[2]);
+                    }
+                    else
+                    {
+                        _sb.AppendFormat("new Vector3({0}f, {1}f, {2}f)", _v3[0], _v3[1], _v3[2]);
+                    }
+                }
+                _sb.Append("}");
+                _ret = _sb.ToString();
+            }
         }
 
 
