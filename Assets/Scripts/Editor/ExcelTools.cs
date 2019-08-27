@@ -37,6 +37,8 @@ public class ExcelTools
     private static void GenerateManagerCode()
     {
         StringBuilder _codeBuilder = new StringBuilder();
+        _codeBuilder.AppendLine("namespace ExcelData");
+        _codeBuilder.AppendLine("{");
         _codeBuilder.AppendLine("public class ExcelManager");
         _codeBuilder.AppendLine("{");
         _codeBuilder.AppendLine("\tprivate static ExcelManager m_instance;");
@@ -64,6 +66,7 @@ public class ExcelTools
         }
         _codeBuilder.AppendLine("\t}");
         _codeBuilder.AppendLine("}");
+        _codeBuilder.AppendLine("}");
         FileStream _codeFile = new FileStream(Path.Combine(OUTPUT_DIR, "ExcelManager.cs"), FileMode.Create, FileAccess.Write);
         StreamWriter _sw = new StreamWriter(_codeFile);
         _sw.Write(_codeBuilder.ToString());
@@ -81,6 +84,8 @@ public class ExcelTools
         _codeBuilder.AppendLine("using System.Collections.Generic;");
         _codeBuilder.AppendLine("using UnityEngine;");
         _codeBuilder.AppendLine();
+        _codeBuilder.AppendLine("namespace ExcelData");
+        _codeBuilder.AppendLine("{");
         _codeBuilder.AppendLine(string.Format("public class {0}", _fileName));
         _codeBuilder.AppendLine("{");
 
@@ -155,6 +160,7 @@ public class ExcelTools
         _codeBuilder.AppendLine("\t\treturn _ret;");
         _codeBuilder.AppendLine("\t}");
         _excelReader.Close();
+        _codeBuilder.AppendLine("}");
         _codeBuilder.AppendLine("}");
         // save to file
         FileStream _codeFile = new FileStream(Path.Combine(OUTPUT_DIR, _fileName + ".cs"), FileMode.Create, FileAccess.Write);
