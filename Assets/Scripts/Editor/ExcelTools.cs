@@ -33,7 +33,7 @@ public class ExcelTools
         EditorUtility.DisplayDialog(string.Empty, "Export Excel Finish", "OK");
         AssetDatabase.Refresh();
     }
-    
+
     private static void GenerateManagerCode()
     {
         StringBuilder _codeBuilder = new StringBuilder();
@@ -53,13 +53,13 @@ public class ExcelTools
         _codeBuilder.AppendLine("\t\t\treturn m_instance;");
         _codeBuilder.AppendLine("\t\t}");
         _codeBuilder.AppendLine("\t}");
-        foreach(string _className in m_codeFileNames)
+        foreach (string _className in m_codeFileNames)
         {
             _codeBuilder.AppendLine(string.Format("\tpublic {0} _{1};", _className, _className.ToLower()));
         }
         _codeBuilder.AppendLine("\tpublic ExcelManager()");
         _codeBuilder.AppendLine("\t{");
-        foreach(string _className in m_codeFileNames)
+        foreach (string _className in m_codeFileNames)
         {
             _codeBuilder.AppendLine(string.Format("\t\t_{0} = new {1}();", _className.ToLower(), _className));
             _codeBuilder.AppendLine(string.Format("\t\t_{0}.Init();", _className.ToLower()));
@@ -251,7 +251,28 @@ public class ExcelTools
             _sb.Append("}");
             _ret = _sb.ToString();
         }
-        
+        else if (fieldType.IndexOf("<Vector3>") >= 0) // Vector3
+        {
+            string[] _values = fieldValue.ToString().Split(new char[] { '|' });
+            int _count = _values.Length;
+            StringBuilder _sb = new StringBuilder();
+            _sb.AppendFormat("{0} = new {1}() {{ ", fieldName, fieldType);
+            for (int i = 0; i < _count; i++)
+            {
+                if (i != _count - 1)
+                {
+                    _sb.AppendFormat("new Vector3({0}), ", _values[i]);
+                }
+                else
+                {
+                    _sb.AppendFormat("new Vector3({0})", _values[i]);
+                }
+            }
+            _sb.Append("}");
+            _ret = _sb.ToString();
+        }
+
+
         return _ret;
     }
 }
